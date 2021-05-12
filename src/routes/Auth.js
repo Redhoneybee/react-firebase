@@ -30,7 +30,6 @@ const Auth = () => {
 
     const onSocialLogin = async (e) => {
         const { target: { name } } = e;
-        console.log(name);
         try {
             let provider;
             if (name === "google") provider = new firebaseInstance.auth.GoogleAuthProvider();
