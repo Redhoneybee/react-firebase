@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { DBService } from "fbase";
 
+import Board from "../components/Board";
+
 const Home = ({ userObj }) => {
     const [mind, setMind] = useState("");
     const [minds, setMinds] = useState([]);
@@ -31,6 +33,8 @@ const Home = ({ userObj }) => {
     }
 
     const onSubmit = async (e) => {
+        e.preventDefault();
+
         await DBService.collection("minds").add({
             creator: userObj.uid,
             text: mind,
@@ -39,7 +43,6 @@ const Home = ({ userObj }) => {
         // init
         setMind("");
     }
-
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -47,7 +50,10 @@ const Home = ({ userObj }) => {
                 <input type="submit" value="share" />
             </form>
             <div>
-                {minds.map(mind => <div key={mind.id}>{mind.text}</div>)}
+
+                {minds.map(mind =>
+                    <Board key={mind.id} mindObj={mind} isOwner={mind.creator === userObj.uid} />
+                )}
             </div>
         </div>
     );
