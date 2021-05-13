@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { DBService } from "fbase";
+import { DBService, StorageService } from "fbase";
 
 const Board = ({ mindObj, isOwner }) => {
     const [editing, setEditing] = useState(false);
@@ -11,6 +11,7 @@ const Board = ({ mindObj, isOwner }) => {
         if (ok) {
             // want it...
             await DBService.doc(`minds/${mindObj.id}`).delete();
+            await StorageService.refFromURL(mindObj.attachment).delete();
         }
     }
     const onEditClick = () => setEditing(prev => !prev);
